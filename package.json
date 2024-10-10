@@ -1,0 +1,10 @@
+{
+  "name": "tuijs-event",
+  "version": "0.0.1",
+  "main": "./src/index.js",
+  "description": "A simple event listener tracker that will help ensure events are removed when working with an SPA.",
+  "author": "TechTB LLC",
+  "license": "MIT",
+  "type": "module",
+  "repository": "github:TechTB-OpenSource/tuijs-event"
+}
