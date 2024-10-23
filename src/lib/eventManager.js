@@ -30,9 +30,9 @@ export function eventManager() {
                 element,
                 eventType,
                 callback,
-                ...(name !== null && { name }) 
-              });
-              return;
+                ...(name !== null && { name })
+            });
+            return;
         } catch (er) {
             throw new Error(`TUI Event Error: ${er.message}`);
         }
@@ -57,7 +57,7 @@ export function eventManager() {
             throw new Error(`TUI Event Error: ${er.message}`);
         }
     }
-    
+
     /**
      * Removes an event listener by its name.
      * @param {string} name - Name of the event that should be removed.
@@ -73,7 +73,7 @@ export function eventManager() {
             const element = namedEvent.element;
             const eventType = namedEvent.eventType;
             const callback = namedEvent.callback;
-            element.removeEventListener(eventType, callback);
+            removeTrackedEvent(element, eventType, callback);
             return;
         } catch (er) {
             throw new Error(`TUI Event Error: ${er.message}`);
@@ -99,12 +99,12 @@ export function eventManager() {
     /**
      * Returns the event Object where the 'name' string matches the name in the object.
      * @param {string} name 
-     * @returns {Object}
+     * @returns {Object|undefined}
      * @throws {Error} - Throws an error if an Error occurs.
      */
     function getNamedEvent(name) {
         try {
-            return trackedListeners.filter(listener => listener.name === name);
+            return trackedListeners.find(listener => listener.name === name);
         } catch (er) {
             throw new Error(`TUI Event Error: ${er.message}`);
         }
