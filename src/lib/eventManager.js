@@ -69,11 +69,17 @@ export function eventManager() {
             if (typeof name !== 'string') {
                 throw new Error(`Name is not a string.`);
             }
-            const namedEvent = getNamedEvent(name);
-            const element = namedEvent.element;
-            const eventType = namedEvent.eventType;
-            const callback = namedEvent.callback;
-            removeTrackedEvent(element, eventType, callback);
+            const namedEvents = getNamedEvents(name);
+            if (!namedEvents) {
+                console.warn(`TUIJS-Event Warning (removeNamedEvent): Named event '${name}' does not exist.`);
+                return;
+            }
+            for (let i = 0; i < namedEvents.length; i++) {
+                const element = namedEvents[i].element;
+                const eventType = namedEvents[i].eventType;
+                const callback = namedEvents[i].callback;
+                removeTrackedEvent(element, eventType, callback);
+            }
             return;
         } catch (er) {
             throw new Error(`TUI Event Error: ${er.message}`);
@@ -102,9 +108,9 @@ export function eventManager() {
      * @returns {Object|undefined}
      * @throws {Error} - Throws an error if an Error occurs.
      */
-    function getNamedEvent(name) {
+    function getNamedEvents(name) {
         try {
-            return trackedListeners.find(listener => listener.name === name);
+            return trackedListeners.filter(listener => listener.name === name);
         } catch (er) {
             throw new Error(`TUI Event Error: ${er.message}`);
         }
@@ -128,7 +134,7 @@ export function eventManager() {
         removeTrackedEvent,
         removeNamedEvent,
         removeAllTrackedEvents,
-        getNamedEvent,
+        getNamedEvents,
         getAllTrackedEvents
     };
 }
