@@ -1,1 +1,1 @@
-export { eventManager as tuiEvent } from './lib/eventManager.js';
+export { main as tuiEvent } from './lib/eventManager.js';

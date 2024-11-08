@@ -1,6 +1,6 @@
 import { checkIsElement, checkIsFunction } from 'tuijs-util'
 
-export function eventManager() {
+export function main() {
     let trackedListeners = [];
 
     /**
