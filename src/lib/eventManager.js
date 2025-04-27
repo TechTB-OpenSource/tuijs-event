@@ -1,7 +1,7 @@
 import { checkIsElement, checkIsFunction } from 'tuijs-util'
 
 export function main() {
-    let trackedListeners = [];
+    let trackedEventListenerList = [];
 
     /**
      * Adds an event listener that is tracked.
@@ -26,14 +26,15 @@ export function main() {
                 throw new Error(`The 'name' param is not a string.`);
             }
             element.addEventListener(eventType, callback);
-            trackedListeners.push({
+            trackedEventListenerList.push({
                 element,
                 eventType,
                 callback,
                 ...(name !== null && { name })
             });
-            return;
+            return true;
         } catch (er) {
+            console.error(er);
             throw new Error(`TUI Event Error: ${er.message}`);
         }
     }
@@ -49,11 +50,12 @@ export function main() {
     function removeTrackedEvent(element, eventType, callback) {
         try {
             element.removeEventListener(eventType, callback);
-            trackedListeners = trackedListeners.filter(
+            trackedEventListenerList = trackedEventListenerList.filter(
                 (listener) => !(listener.element === element && listener.eventType === eventType && listener.callback === callback)
             );
-            return;
+            return true;
         } catch (er) {
+            console.error(er);
             throw new Error(`TUI Event Error: ${er.message}`);
         }
     }
@@ -69,7 +71,7 @@ export function main() {
             if (typeof name !== 'string') {
                 throw new Error(`Name is not a string.`);
             }
-            const namedEvents = getNamedEvents(name);
+            const namedEvents = getNamedEvents(name) || [];
             if (!namedEvents) {
                 console.warn(`TUIJS-Event Warning (removeNamedEvent): Named event '${name}' does not exist.`);
                 return;
@@ -80,8 +82,9 @@ export function main() {
                 const callback = namedEvents[i].callback;
                 removeTrackedEvent(element, eventType, callback);
             }
-            return;
+            return true;
         } catch (er) {
+            console.error(er);
             throw new Error(`TUI Event Error: ${er.message}`);
         }
     }
@@ -93,11 +96,13 @@ export function main() {
      */
     function removeAllTrackedEvents() {
         try {
-            trackedListeners.forEach(({ element, eventType, callback }) => {
+            trackedEventListenerList.forEach(({ element, eventType, callback }) => {
                 element.removeEventListener(eventType, callback);
             });
-            trackedListeners = [];
+            trackedEventListenerList = [];
+            return true;
         } catch (er) {
+            console.error(er);
             throw new Error(`TUI Event Error: ${er.message}`);
         }
     }
@@ -110,8 +115,13 @@ export function main() {
      */
     function getNamedEvents(name) {
         try {
-            return trackedListeners.filter(listener => listener.name === name);
+            const namedEvents = trackedEventListenerList.filter(listener => listener.name === name);
+            if (namedEvents.length === 0) {
+                console.warn(`No events found for name: ${name}`);
+            }
+            return namedEvents;
         } catch (er) {
+            console.error(er);
             throw new Error(`TUI Event Error: ${er.message}`);
         }
     }
@@ -123,8 +133,9 @@ export function main() {
      */
     function getAllTrackedEvents() {
         try {
-            return trackedListeners;
+            return trackedEventListenerList;
         } catch (er) {
+            console.error(er);
             throw new Error(`TUI Event Error: ${er.message}`);
         }
     }
