@@ -73,8 +73,7 @@ export function main() {
             }
             const namedEvents = getNamedEvents(name) || [];
             if (!namedEvents) {
-                console.warn(`TUIJS-Event Warning (removeNamedEvent): Named event '${name}' does not exist.`);
-                return;
+                return false;
             }
             for (let i = 0; i < namedEvents.length; i++) {
                 const element = namedEvents[i].element;
@@ -117,7 +116,7 @@ export function main() {
         try {
             const namedEvents = trackedEventListenerList.filter(listener => listener.name === name);
             if (namedEvents.length === 0) {
-                console.warn(`No events found for name: ${name}`);
+                return false;
             }
             return namedEvents;
         } catch (er) {
