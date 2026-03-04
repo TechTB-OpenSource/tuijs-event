@@ -1,17 +1,11 @@
 import { checkIsElement, checkIsFunction } from 'tuijs-util'
 
-export function main() {
-    let trackedEventListenerList = [];
+import type { EventElement, TrackedEventListener, trackedEventListenerList } from './models';
 
-    /**
-     * Adds an event listener that is tracked.
-     * @param {Element} element 
-     * @param {string} eventType 
-     * @param {Function} callback 
-     * @returns {void}
-     * @throws {Error} - Throws an error if an Error occurs.
-     */
-    function addTrackedEvent(element, eventType, callback, name = null) {
+export function createEventInstance() {
+    let trackedEventListenerList: trackedEventListenerList = [];
+
+    function addTrackedEvent(element: EventElement, eventType: string, callback: Function, name: string | null = null): boolean {
         try {
             if (!checkIsElement(element)) {
                 throw new Error(`The 'element' param is not an Element.`);
@@ -33,40 +27,24 @@ export function main() {
                 ...(name !== null && { name })
             });
             return true;
-        } catch (er) {
-            console.error(er);
-            throw new Error(`TUI Event Error: ${er.message}`);
+        } catch (er: unknown) {
+            throw new Error(`TUI Event Error: ${er}`);
         }
     }
 
-    /**
-     * Removes an event listener that is tracked.
-     * @param {Element} element 
-     * @param {string} eventType 
-     * @param {Function} callback
-     * @returns {void}
-     * @throws {Error} - Throws an error if an Error occurs.
-     */
-    function removeTrackedEvent(element, eventType, callback) {
+    function removeTrackedEvent(element: EventElement, eventType: string, callback: Function): boolean {
         try {
             element.removeEventListener(eventType, callback);
             trackedEventListenerList = trackedEventListenerList.filter(
                 (listener) => !(listener.element === element && listener.eventType === eventType && listener.callback === callback)
             );
             return true;
-        } catch (er) {
-            console.error(er);
-            throw new Error(`TUI Event Error: ${er.message}`);
+        } catch (er: unknown) {
+            throw new Error(`TUI Event Error: ${er}`);
         }
     }
 
-    /**
-     * Removes an event listener by its name.
-     * @param {string} name - Name of the event that should be removed.
-     * @returns {void}
-     * @throws {Error} - Throws an error if an Error occurs.
-     */
-    function removeNamedEvent(name) {
+    function removeNamedEvent(name: string): boolean {
         try {
             if (typeof name !== 'string') {
                 throw new Error(`Name is not a string.`);
@@ -82,60 +60,40 @@ export function main() {
                 removeTrackedEvent(element, eventType, callback);
             }
             return true;
-        } catch (er) {
-            console.error(er);
-            throw new Error(`TUI Event Error: ${er.message}`);
+        } catch (er: unknown) {
+            throw new Error(`TUI Event Error: ${er}`);
         }
     }
 
-    /**
-     * Removes all event listeners that are tracked.
-     * @returns {void}
-     * @throws {Error} - Throws an error if an Error occurs.
-     */
-    function removeAllTrackedEvents() {
+    function removeAllTrackedEvents(): boolean {
         try {
             trackedEventListenerList.forEach(({ element, eventType, callback }) => {
                 element.removeEventListener(eventType, callback);
             });
             trackedEventListenerList = [];
             return true;
-        } catch (er) {
-            console.error(er);
-            throw new Error(`TUI Event Error: ${er.message}`);
+        } catch (er: unknown) {
+            throw new Error(`TUI Event Error: ${er}`);
         }
     }
 
-    /**
-     * Returns the event Object where the 'name' string matches the name in the object.
-     * @param {string} name 
-     * @returns {Object|undefined}
-     * @throws {Error} - Throws an error if an Error occurs.
-     */
-    function getNamedEvents(name) {
+    function getNamedEvents(name: string): Array<TrackedEventListener> | false {
         try {
             const namedEvents = trackedEventListenerList.filter(listener => listener.name === name);
             if (namedEvents.length === 0) {
                 return false;
             }
             return namedEvents;
-        } catch (er) {
-            console.error(er);
-            throw new Error(`TUI Event Error: ${er.message}`);
+        } catch (er: unknown) {
+            throw new Error(`TUI Event Error: ${er}`);
         }
     }
 
-    /**
-     * Returns all event Objects in an Array.
-     * @returns {Array}
-     * @throws {Error} - Throws an error if an Error occurs.
-     */
-    function getAllTrackedEvents() {
+    function getAllTrackedEvents(): Array<TrackedEventListener> {
         try {
             return trackedEventListenerList;
-        } catch (er) {
-            console.error(er);
-            throw new Error(`TUI Event Error: ${er.message}`);
+        } catch (er: unknown) {
+            throw new Error(`TUI Event Error: ${er}`);
         }
     }
 
