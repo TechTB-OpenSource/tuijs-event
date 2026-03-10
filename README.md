@@ -12,11 +12,11 @@ const eventInstance = createEventInstance();
 ```
 2. Once you have created an event instance you can use the instance methods to manage tracked events.
 3. There are six methods that can be used to manipulate your event instance.
-    - addTrackedEvent - Adds a tracked event listener to a specified element and to the event instance. Optional: You can add a name string parameter to the method in order to create a "named" tracked event. ***The event name can be any desired string and should not be confused with event type string.***
-    - removeTrackedEvent - Removes a tracked event listener from the specified element and the event instance.
-    - removeNamedEvent - Removes a tracked named event.
-    - removeAllTrackedEvents - Removes all tracked events from the event instance.
-    - getNamedEvents - Returns all events that have a matching name.
+    - addTrackedEvent - Adds a tracked event listener to a specified element and to the event instance. Optional: You can add a name string parameter in order to create a named tracked event.
+    - removeTrackedEvent - Removes a tracked event listener from the specified element and the event instance. The event details much match.
+    - removeNamedEvent - Removes a tracked named event using an event name string.
+    - removeAllTrackedEvents - Removes all tracked events from the event instance, regardless of if they are named.
+    - getNamedEvents - Returns all events that have a matching name string.
     - getAllTrackedEvents - Returns all events that are being tracked by the event instance.
 
 ## Example: Create and remove an unnamed tracked Event.
