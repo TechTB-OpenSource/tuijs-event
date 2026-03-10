@@ -10,10 +10,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
-    "sitemap": "node ./bin/index.js"
-  },
-  "dependencies": {
-    "tuijs-util": "^1.4.1"
+    "deploy": "npm run build && npm publish"
   },
   "devDependencies": {
     "rimraf": "^6.1.3",
