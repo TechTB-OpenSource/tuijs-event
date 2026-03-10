@@ -8,4 +8,3 @@ export interface TrackedEventListener {
 }
 
 export type trackedEventListenerList = TrackedEventListener[];
-

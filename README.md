@@ -1,16 +1,16 @@
 # TUIJS-Event
-### A simple JavaScript event listener tracker that will help ensure events are easy to remove when working with an SPA. This will prevent disconnected event listeners from piling up as elements are added and removed from you site/app.
-***TUIJS-Event is built on ES Modules***
+***Last Updated 03/10/2026***
+### A simple JavaScript event listener tracker that will help ensure events are easy to manage. This will prevent event listeners from piling when working in simple SPAs.
 
-***Last Updated 11/07/2024***
+***TUIJS-Event is currently pre-release. Expect breaking changes.***
 
 ## Getting Started
-1. To start tracking events you must create an event instance. This can be done by calling the 'tuiEvent' function and storing it in a variable that can be accessed anywhere in your application.
+1. To start tracking events you must create an event instance. This can be done by using the 'createEventInstance' function.
 ```js
-import { tuiEvent } from 'tuijs-event';
-const eventInstance = tuiEvent();
+import { createEventInstance } from 'tuijs-event';
+const eventInstance = createEventInstance();
 ```
-2. Once you have your instance created and stored, you can refer to it anywhere in your application to create or remove a tracked event.
+2. Once you have created an event instance you can use the instance methods to manage tracked events.
 3. There are six methods that can be used to manipulate your event instance.
     - addTrackedEvent - Adds a tracked event listener to a specified element and to the event instance. Optional: You can add a name string parameter to the method in order to create a "named" tracked event. ***The event name can be any desired string and should not be confused with event type string.***
     - removeTrackedEvent - Removes a tracked event listener from the specified element and the event instance.
@@ -19,12 +19,38 @@ const eventInstance = tuiEvent();
     - getNamedEvents - Returns all events that have a matching name.
     - getAllTrackedEvents - Returns all events that are being tracked by the event instance.
 
-## Below are examples of how to call each method
+## Example: Create and remove an unnamed tracked Event.
 ```js
-eventInstance.addTrackedEvent(element, 'event', callback, 'eventName');
-eventInstance.removeTrackedEvent(element, 'event', callback);
-eventInstance.removeNamedEvent('eventName');
+const helloButton = .document.getElementById('#hello-button');
+eventInstance.addTrackedEvent(helloButton, 'click', () => {console.log('Hello World')});
+eventInstance.removeTrackedEvent(helloButton, 'click', () => {console.log('Hello World')});
+```
+
+
+## Example: Create and remove a named tracked Event.
+```js
+const helloButton = .document.getElementById('#hello-button');
+eventInstance.addTrackedEvent(helloButton, 'click', () => {console.log('Hello World')}, 'helloButton');
+eventInstance.removeNamedEvent('helloButton');
+```
+
+
+## Example: Create several events and remove them all.
+```js
+const helloButton = .document.getElementById('#hello-button');
+const trackedInput = .document.getElementById('#tracked-input');
+eventInstance.addTrackedEvent(helloButton, 'click', () => {console.log('Hello World')}, 'helloButton');
+eventInstance.addTrackedEvent(trackedInput, 'change',  trackedInputChange);
 eventInstance.removeAllTrackedEvents();
+
+function trackedInputChange() {
+    console.log('The tracked input has changed.')
+}
+
+```
+
+## TUIJS-Event Also has some helpful tools to collect information about the event instance state. These can be very useful during troubleshooting.
+```js
 eventInstance.getNamedEvents('eventName');
 eventInstance.getAllTrackedEvents();
 ```
