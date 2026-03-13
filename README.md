@@ -1,8 +1,13 @@
 # TUIJS-Event
 ***Last Updated 03/10/2026***
-### A simple JavaScript event listener tracker that will help ensure events are easy to manage. This will prevent event listeners from piling when working in simple SPAs.
+
+## Description
+A simple JavaScript event listener tracker that will help ensure events are easy to manage. This will prevent event listeners from piling when working in simple SPAs.
 
 ***TUIJS-Event is currently pre-release. Expect breaking changes.***
+
+<br>
+<br>
 
 ## Getting Started
 1. To start tracking events you must create an event instance. This can be done by using the 'createEventInstance' function.
