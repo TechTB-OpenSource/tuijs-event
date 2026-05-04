@@ -26,7 +26,7 @@ const eventInstance = createEventInstance();
 
 ## Example: Create and remove an unnamed tracked Event.
 ```js
-const helloButton = .document.getElementById('#hello-button');
+const helloButton = document.body.getElementById('#hello-button');
 eventInstance.addTrackedEvent(helloButton, 'click', () => {console.log('Hello World')});
 eventInstance.removeTrackedEvent(helloButton, 'click', () => {console.log('Hello World')});
 ```
@@ -34,7 +34,7 @@ eventInstance.removeTrackedEvent(helloButton, 'click', () => {console.log('Hello
 
 ## Example: Create and remove a named tracked Event.
 ```js
-const helloButton = .document.getElementById('#hello-button');
+const helloButton = document.body.getElementById('#hello-button');
 eventInstance.addTrackedEvent(helloButton, 'click', () => {console.log('Hello World')}, 'helloButton');
 eventInstance.removeNamedEvent('helloButton');
 ```
@@ -42,8 +42,8 @@ eventInstance.removeNamedEvent('helloButton');
 
 ## Example: Create several events and remove them all.
 ```js
-const helloButton = .document.getElementById('#hello-button');
-const trackedInput = .document.getElementById('#tracked-input');
+const helloButton = document.body.getElementById('#hello-button');
+const trackedInput = document.body.getElementById('#tracked-input');
 eventInstance.addTrackedEvent(helloButton, 'click', () => {console.log('Hello World')}, 'helloButton');
 eventInstance.addTrackedEvent(trackedInput, 'change',  trackedInputChange);
 eventInstance.removeAllTrackedEvents();
